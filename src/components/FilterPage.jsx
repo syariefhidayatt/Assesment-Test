@@ -1,4 +1,13 @@
 import { useLoaderData, useSearchParams } from "react-router-dom";
+import {
+  Building,
+  Earth,
+  ListRestart,
+  Map,
+  MapPin,
+  RefreshCcw,
+  RefreshCw,
+} from "lucide-react";
 
 export default function FilterPage() {
   const regions = useLoaderData();
@@ -29,76 +38,87 @@ export default function FilterPage() {
 
   return (
     <div className="min-h-screen flex">
-      <aside className="w-80 p-4 bg-gray-100">
-        <h1 className="text-xl font-bold text-center mt-4">
+      <aside className="w-80 p-4 bg-gray-50">
+        <h1 className="flex items-center gap-2 p-4 text-xl font-bold">
+          <Earth color="#6367FF" className="w-6 h-6" />
           Frontend Assesment
         </h1>
-        <h3 className="text-gray-400 text-sm p-4 mt-10">FILTER WILAYAH</h3>
+        <h3 className="text-gray-400 text-sm pl-4 pt-10">FILTER WILAYAH</h3>
 
-        <div className="flex flex-col p-4 gap-3">
+        <div className="flex flex-col p-4 gap-3 ">
           <label>PROVINSI</label>
-          <select
-            name="province"
-            className="p-3 rounded-xl shadow-md outline-1 cursor-pointer"
-            value={selectedProvince}
-            onChange={(e) => setSearchParams({ province: e.target.value })}
-          >
-            <option value="">Pilih Provinsi</option>
-            {regions.provinces.map((prov) => (
-              <option key={prov.id} value={prov.id}>
-                {prov.name}
-              </option>
-            ))}
-          </select>
+          <div className="relative flex flex-col mb-3">
+            <Map color="#BFC6C4" className="absolute left-3 top-3" />
+            <select
+              name="province"
+              className="p-3 pl-10 rounded-xl shadow-md outline-1 cursor-pointer"
+              value={selectedProvince}
+              onChange={(e) => setSearchParams({ province: e.target.value })}
+            >
+              <option value="">Pilih Provinsi</option>
+              {regions.provinces.map((prov) => (
+                <option key={prov.id} value={prov.id}>
+                  {prov.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <label>KOTA/KABUPATEN</label>
-          <select
-            name="regency"
-            className="p-3 rounded-xl shadow-md outline-1 cursor-pointer"
-            value={selectedRegency}
-            onChange={(e) =>
-              setSearchParams({
-                province: selectedProvince,
-                regency: e.target.value,
-              })
-            }
-            disabled={!selectedProvince}
-          >
-            <option value="">Pilih Kota</option>
-            {availableRegency.map((reg) => (
-              <option value={reg.id} key={reg.id}>
-                {reg.name}
-              </option>
-            ))}
-          </select>
+          <div className="relative flex flex-col mb-3">
+            <Building color="#BFC6C4" className="absolute left-3 top-3" />
+            <select
+              name="regency"
+              className="p-3 pl-10 rounded-xl shadow-md outline-1 cursor-pointer"
+              value={selectedRegency}
+              onChange={(e) =>
+                setSearchParams({
+                  province: selectedProvince,
+                  regency: e.target.value,
+                })
+              }
+              disabled={!selectedProvince}
+            >
+              <option value="">Pilih Kota</option>
+              {availableRegency.map((reg) => (
+                <option value={reg.id} key={reg.id}>
+                  {reg.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <label>KECAMATAN</label>
-          <select
-            name="district"
-            className="p-3 rounded-xl shadow-md outline-1 cursor-pointer"
-            value={selectedDistrict}
-            onChange={(e) =>
-              setSearchParams({
-                province: selectedProvince,
-                regency: selectedRegency,
-                district: e.target.value,
-              })
-            }
-            disabled={!selectedRegency}
-          >
-            <option value="">Pilih Kecamatan</option>
-            {availableDistrict.map((dist) => (
-              <option value={dist.id} key={dist.id}>
-                {dist.name}
-              </option>
-            ))}
-          </select>
+          <div className="relative flex flex-col mb-3">
+            <MapPin color="#BFC6C4" className="absolute left-3 top-3" />
+            <select
+              name="district"
+              className="p-3 pl-10 rounded-xl shadow-md outline-1 cursor-pointer"
+              value={selectedDistrict}
+              onChange={(e) =>
+                setSearchParams({
+                  province: selectedProvince,
+                  regency: selectedRegency,
+                  district: e.target.value,
+                })
+              }
+              disabled={!selectedRegency}
+            >
+              <option value="">Pilih Kecamatan</option>
+              {availableDistrict.map((dist) => (
+                <option value={dist.id} key={dist.id}>
+                  {dist.name}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <button
             type="button"
-            className="p-3 mt-10 rounded-xl shadow-md bg-blue-100 outline-2 outline-blue-500 cursor-pointer"
+            className="flex items-center justify-center gap-2 p-3 mt-10 rounded-xl shadow-md bg-blue-100 outline-2 outline-blue-500 cursor-pointer"
             onClick={() => setSearchParams({})}
           >
+            <ListRestart className="w-6 h-6" />
             RESET
           </button>
         </div>
@@ -156,7 +176,9 @@ export default function FilterPage() {
               <span className="text-blue-300 text-sm font-semibold">
                 PROVINSI
               </span>
-              <span className="text-5xl font-bold">{provinceObj.name}</span>
+              <span className="text-2xl md:text-5xl font-bold">
+                {provinceObj.name}
+              </span>
             </div>
           ) : (
             ""
@@ -168,7 +190,9 @@ export default function FilterPage() {
               <span className="text-blue-300 text-sm font-semibold">
                 KOTA / KABUPATEN
               </span>
-              <span className="text-5xl font-bold">{regencyObj.name}</span>
+              <span className="text-2xl md:text-5xl font-bold">
+                {regencyObj.name}
+              </span>
             </div>
           ) : (
             ""
@@ -178,7 +202,9 @@ export default function FilterPage() {
             <div className="flex flex-col items-center gap-2">
               <p className="text-gray-500 mb-10">↓</p>
               <p className="text-blue-300 text-sm font-semibold">KECAMATAN</p>
-              <p className="text-5xl font-bold">{districtObj.name}</p>
+              <p className="text-2xl md:text-5xl font-bold">
+                {districtObj.name}
+              </p>
             </div>
           ) : (
             ""
